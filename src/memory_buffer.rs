@@ -16,7 +16,7 @@ use std::slice;
 
 #[derive(Debug)]
 pub struct MemoryBuffer {
-    pub(crate) memory_buffer: LLVMMemoryBufferRef,
+    pub memory_buffer: LLVMMemoryBufferRef,
 }
 
 impl MemoryBuffer {
