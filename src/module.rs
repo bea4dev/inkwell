@@ -167,13 +167,17 @@ pub enum Linkage {
 #[derive(Debug, PartialEq, Eq)]
 pub struct Module<'ctx> {
     data_layout: RefCell<Option<DataLayout>>,
-    pub(crate) module: Cell<LLVMModuleRef>,
-    pub(crate) owned_by_ee: RefCell<Option<ExecutionEngine<'ctx>>>,
+    ///
+    pub module: Cell<LLVMModuleRef>,
+    ///
+    pub owned_by_ee: RefCell<Option<ExecutionEngine<'ctx>>>,
     _marker: PhantomData<&'ctx Context>,
 }
 
+///
 impl<'ctx> Module<'ctx> {
-    pub(crate) unsafe fn new(module: LLVMModuleRef) -> Self {
+    ///
+    pub unsafe fn new(module: LLVMModuleRef) -> Self {
         debug_assert!(!module.is_null());
 
         Module {

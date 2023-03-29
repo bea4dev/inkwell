@@ -69,10 +69,12 @@ thread_local! {
 
 /// This struct allows us to share method impls across Context and ContextRef types
 #[derive(Debug, PartialEq, Eq)]
-pub(crate) struct ContextImpl(pub(crate) LLVMContextRef);
+pub struct ContextImpl(pub LLVMContextRef);
 
 impl ContextImpl {
-    pub(crate) unsafe fn new(context: LLVMContextRef) -> Self {
+
+    ///
+    pub unsafe fn new(context: LLVMContextRef) -> Self {
         assert!(!context.is_null());
 
         ContextImpl(context)
@@ -401,13 +403,16 @@ impl PartialEq<ContextRef<'_>> for Context {
 /// can, however, execute on different threads simultaneously according to the LLVM docs.
 #[derive(Debug, PartialEq, Eq)]
 pub struct Context {
-    pub(crate) context: ContextImpl,
+    ///
+    pub context: ContextImpl,
 }
 
 unsafe impl Send for Context {}
 
+///
 impl Context {
-    pub(crate) unsafe fn new(context: LLVMContextRef) -> Self {
+    ///
+    pub unsafe fn new(context: LLVMContextRef) -> Self {
         Context {
             context: ContextImpl::new(context),
         }
@@ -1274,12 +1279,15 @@ impl Drop for Context {
 /// A `ContextRef` is a smart pointer allowing borrowed access to a type's `Context`.
 #[derive(Debug, PartialEq, Eq)]
 pub struct ContextRef<'ctx> {
-    pub(crate) context: ContextImpl,
+    ///
+    pub context: ContextImpl,
     _marker: PhantomData<&'ctx Context>,
 }
 
+///
 impl<'ctx> ContextRef<'ctx> {
-    pub(crate) unsafe fn new(context: LLVMContextRef) -> Self {
+    ///
+    pub unsafe fn new(context: LLVMContextRef) -> Self {
         ContextRef {
             context: ContextImpl::new(context),
             _marker: PhantomData,
